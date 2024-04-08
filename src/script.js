@@ -1,12 +1,13 @@
 document.addEventListener('DOMContentLoaded', () => {
     const loadCarsBtn = document.getElementById('loadCarsBtn');
     const carList = document.getElementById('carList');
-    cars = [];
+    cars = []
+
     loadCarsBtn.addEventListener('click', () => {
          fetch('/api/cars')
             .then(response => response.json())
             .then(data => {
-                cars = data // added change to set the cars array to be the data collected
+                cars = data // added change to set the cars array to be the data
                 carList.innerHTML = '';
                 data.forEach((car, index) => {
                     const carCard = document.createElement('div');

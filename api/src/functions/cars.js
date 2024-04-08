@@ -1,12 +1,16 @@
 const { app } = require('@azure/functions');
+const { error } = require('console');
+const fs = require('fs')
 let cars = [];
 
 const getAllCars = async () => {
     try {
-        // Return entire array of cars in JSON format
+        // Read from file, parse data and send back
+        const data = fs.readFileSync('cars.json')
+        cars = JSON.parse(data)
         return {
             status: 200,
-            body: JSON.stringify(cars)
+            body: data
         };
     } catch (error) { // Error message 
         return {
@@ -29,6 +33,9 @@ const createCar = async (car) => {
 
         // Add car to list
         cars.push(car)
+        
+        // Write back to the file
+        fs.writeFile('cars.json', JSON.stringify(cars), (error) => {return {status: 400, body: JSON.stringify({error: error})}})
 
         // Return successful
         return {
@@ -41,7 +48,7 @@ const createCar = async (car) => {
         return {
             status: 400,
             body: JSON.stringify({
-                error: error.message
+                error: error
             })
         }
     }
@@ -57,6 +64,9 @@ const deleteCar = async (carId) => {
 
             // Delete the car
             cars.splice(index, 1)
+
+            // Write back to the file
+            fs.writeFile('cars.json', JSON.stringify(cars), (error) => {return {status: 400, body: JSON.stringify({error: error})}})
 
             // Return successful
             return {
