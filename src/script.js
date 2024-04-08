@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     cars = []
 
     loadCarsBtn.addEventListener('click', () => {
-         fetch('/api/cars')
+         fetch('/api/cars') // Do fetch
             .then(response => response.json())
             .then(data => {
                 cars = data // added change to set the cars array to be the data
