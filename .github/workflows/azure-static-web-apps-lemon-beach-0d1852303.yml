@@ -11,7 +11,8 @@ on:
 
 jobs:
   build_and_deploy_job:
-    if: github.event.pull_request.merged == true
+    # Only build and deploy if pushed to main or merged into main
+    if: (github.event_name == 'push') || (github.event.pull_request.merged == true)
     runs-on: ubuntu-latest
     name: Build and Deploy Job
     steps:
